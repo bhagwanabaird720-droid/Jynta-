@@ -1,1 +1,28 @@
-
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noUncheckedIndexedAccess": true,
+    "baseUrl": ".",
+    "paths": {
+      "@jynta/ui/*": ["packages/ui/*"],
+      "@jynta/design-system/*": ["packages/design-system/*"],
+      "@jynta/icons/*": ["packages/icons/*"],
+      "@jynta/types/*": ["packages/types/*"],
+      "@jynta/utils/*": ["packages/utils/*"],
+      "@jynta/hooks/*": ["packages/hooks/*"],
+      "@jynta/config/*": ["packages/config/*"],
+      "@jynta/constants/*": ["packages/constants/*"],
+      "@jynta/schemas/*": ["packages/schemas/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", ".next", "build"]
+}
