@@ -13,9 +13,9 @@
     "next": "^15.0.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
-    "@jynta/ui": "workspace:*",
-    "@jynta/design-system": "workspace:*",
-    "@jynta/hooks": "workspace:*"
+    "@jynta/ui": "*",
+    "@jynta/design-system": "*",
+    "@jynta/hooks": "*"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
