@@ -5,8 +5,8 @@
   "main": "index.ts",
   "types": "index.ts",
   "dependencies": {
-    "@jynta/design-system": "workspace:*",
-    "@jynta/hooks": "workspace:*",
+    "@jynta/design-system": "*",
+    "@jynta/hooks": "*",
     "react": "^18.3.0"
   }
 }
