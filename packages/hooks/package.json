@@ -5,6 +5,6 @@
   "main": "index.ts",
   "types": "index.ts",
   "dependencies": {
-    "@jynta/design-system": "workspace:*"
+    "@jynta/design-system": "*"
   }
 }
