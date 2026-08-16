@@ -10,7 +10,6 @@ export default function ForgotPasswordPage() {
         <p className="mt-1 text-center text-sm text-neutral-500">
           Enter your email to receive a reset link.
         </p>
-
         <form className="mt-6 flex flex-col gap-3">
           <input
             type="email"
@@ -21,7 +20,6 @@ export default function ForgotPasswordPage() {
             Send Reset Link
           </Button>
         </form>
-
         <p className="mt-4 text-center text-sm text-neutral-500">
           Remembered your password?{' '}
           <a href="/sign-in" className="text-blue-600">
