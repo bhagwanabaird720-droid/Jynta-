@@ -4,11 +4,12 @@ import { useState } from 'react';
 import { Sidebar } from '@jynta/ui';
 import { TopBar } from '@/components/layout/TopBar';
 import { HomeCards } from '@/components/home/HomeCards';
+import { AppSidebar } from '@/components/layout/AppSidebar';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function HomePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
 
   if (loading) {
     return <div className="flex min-h-screen items-center justify-center text-neutral-400">Loading...</div>;
@@ -22,13 +23,7 @@ export default function HomePage() {
 
       {isLoggedIn && (
         <Sidebar isOpen={sidebarOpen} isCollapsed={false} onClose={() => setSidebarOpen(false)}>
-          <div className="p-4">
-            <p className="font-bold text-blue-600">JYNTA</p>
-            <p className="mt-4 text-sm text-neutral-600">{user?.full_name}</p>
-            <button onClick={logout} className="mt-4 text-sm text-red-600">
-              Logout
-            </button>
-          </div>
+          <AppSidebar />
         </Sidebar>
       )}
 
