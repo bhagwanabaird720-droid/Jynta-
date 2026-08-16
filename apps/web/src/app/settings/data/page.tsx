@@ -1,4 +1,10 @@
+import { AppShell } from '@/components/layout/AppShell';
 import { ComingSoon } from '@/components/common/ComingSoon';
+
 export default function Page() {
-  return <ComingSoon title="Data & Backup" />;
+  return (
+    <AppShell>
+      <ComingSoon title="Data & Backup" />
+    </AppShell>
+  );
 }
