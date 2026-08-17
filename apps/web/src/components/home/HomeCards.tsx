@@ -22,18 +22,21 @@ export function HomeCards({ isLoggedIn }: HomeCardsProps) {
         title="Assistant"
         description="Chat • Create • Learn"
         onClick={() => handleClick('/assistant')}
+        className="min-h-[120px]"
       />
       <Card
         icon="🟩"
         title="Memory"
         description="Save • Store • Manage"
         onClick={() => handleClick('/memory')}
+        className="min-h-[120px]"
       />
       <Card
         icon="🟨"
         title="Automation"
         description="AI Agents • Tasks"
         onClick={() => handleClick('/automation')}
+        className="min-h-[120px]"
       />
     </div>
   );
