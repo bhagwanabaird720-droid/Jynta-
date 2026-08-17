@@ -11,7 +11,11 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div className="flex min-h-screen items-center justify-center text-neutral-400">Loading...</div>;
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-neutral-50 text-neutral-400">
+        Loading...
+      </div>
+    );
   }
 
   const isLoggedIn = !!user;
@@ -24,7 +28,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <AppSidebar />
         </Sidebar>
       )}
-      {children}
+      <main>{children}</main>
     </div>
   );
 }
