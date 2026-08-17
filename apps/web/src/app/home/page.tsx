@@ -1,14 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { Sidebar } from '@jynta/ui';
-import { TopBar } from '@/components/layout/TopBar';
+import { AppShell } from '@/components/layout/AppShell';
 import { HomeCards } from '@/components/home/HomeCards';
-import { AppSidebar } from '@/components/layout/AppSidebar';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function HomePage() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -18,16 +14,8 @@ export default function HomePage() {
   const isLoggedIn = !!user;
 
   return (
-    <div className="min-h-screen bg-neutral-50">
-      <TopBar isLoggedIn={isLoggedIn} onMenuClick={() => setSidebarOpen(true)} />
-
-      {isLoggedIn && (
-        <Sidebar isOpen={sidebarOpen} isCollapsed={false} onClose={() => setSidebarOpen(false)}>
-          <AppSidebar />
-        </Sidebar>
-      )}
-
-      <div className="px-6 py-10 text-center">
+    <AppShell>
+      <div className="px-6 pt-6 pb-4 text-center">
         <h1 className="text-2xl font-bold text-neutral-900">
           {isLoggedIn ? `Welcome Back, ${user?.full_name} 👋` : 'Welcome to Jynta 👋'}
         </h1>
@@ -38,9 +26,9 @@ export default function HomePage() {
 
       <HomeCards isLoggedIn={isLoggedIn} />
 
-      <p className="mt-8 text-center text-xs text-neutral-400">
+      <p className="mt-8 pb-6 text-center text-xs text-neutral-400">
         AI Assistant · AI Memory · AI Automation
       </p>
-    </div>
+    </AppShell>
   );
 }
