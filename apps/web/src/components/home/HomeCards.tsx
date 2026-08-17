@@ -16,27 +16,27 @@ export function HomeCards({ isLoggedIn }: HomeCardsProps) {
   }
 
   return (
-    <div className="mx-auto grid max-w-4xl grid-cols-1 gap-4 px-6 sm:grid-cols-3">
+    <div className="mx-auto flex max-w-4xl flex-col gap-4 px-6 md:grid md:grid-cols-3">
       <Card
         icon="🟦"
         title="Assistant"
         description="Chat • Create • Learn"
         onClick={() => handleClick('/assistant')}
-        className="min-h-[120px]"
+        className="min-h-[100px] w-full"
       />
       <Card
         icon="🟩"
         title="Memory"
         description="Save • Store • Manage"
         onClick={() => handleClick('/memory')}
-        className="min-h-[120px]"
+        className="min-h-[100px] w-full"
       />
       <Card
         icon="🟨"
         title="Automation"
         description="AI Agents • Tasks"
         onClick={() => handleClick('/automation')}
-        className="min-h-[120px]"
+        className="min-h-[100px] w-full"
       />
     </div>
   );
