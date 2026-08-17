@@ -21,14 +21,16 @@ export function AppShell({ children }: { children: ReactNode }) {
   const isLoggedIn = !!user;
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="flex min-h-screen flex-col bg-neutral-50">
       <TopBar isLoggedIn={isLoggedIn} onMenuClick={() => setSidebarOpen(true)} />
-      {isLoggedIn && (
-        <Sidebar isOpen={sidebarOpen} isCollapsed={false} onClose={() => setSidebarOpen(false)}>
-          <AppSidebar />
-        </Sidebar>
-      )}
-      <main>{children}</main>
+      <div className="flex flex-1">
+        {isLoggedIn && (
+          <Sidebar isOpen={sidebarOpen} isCollapsed={false} onClose={() => setSidebarOpen(false)}>
+            <AppSidebar />
+          </Sidebar>
+        )}
+        <main className="min-w-0 flex-1">{children}</main>
+      </div>
     </div>
   );
 }
