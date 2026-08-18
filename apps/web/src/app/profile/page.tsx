@@ -1,10 +1,10 @@
 import { AppShell } from '@/components/layout/AppShell';
-import { ComingSoon } from '@/components/common/ComingSoon';
+import { ProfileContent } from '@/components/profile/ProfileContent';
 
-export default function Page() {
+export default function ProfilePage() {
   return (
     <AppShell>
-      <ComingSoon title="Profile" />
+      <ProfileContent />
     </AppShell>
   );
 }
