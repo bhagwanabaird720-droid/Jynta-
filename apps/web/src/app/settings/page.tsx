@@ -1,10 +1,10 @@
 import { AppShell } from '@/components/layout/AppShell';
-import { ComingSoon } from '@/components/common/ComingSoon';
+import { SettingsList } from '@/components/settings/SettingsList';
 
-export default function Page() {
+export default function SettingsPage() {
   return (
     <AppShell>
-      <ComingSoon title="Settings" />
+      <SettingsList />
     </AppShell>
   );
 }
