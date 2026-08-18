@@ -11,12 +11,12 @@ async function getUserId(req: NextRequest) {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ conversationId: string }> }
+  context: { params: Promise<{ conversationId: string }> }
 ) {
   const userId = await getUserId(req);
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { conversationId } = await params;
+  const { conversationId } = await context.params;
 
   const messages = await query(
     'SELECT id, role, content, created_at FROM messages WHERE conversation_id = $1 ORDER BY created_at ASC',
@@ -24,4 +24,4 @@ export async function GET(
   );
 
   return NextResponse.json({ messages });
-                            }
+}
