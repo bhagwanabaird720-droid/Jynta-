@@ -18,7 +18,8 @@
     "@jynta/hooks": "*",
     "@jynta/database": "*",
     "bcryptjs": "^2.4.3",
-    "jose": "^5.9.0"
+    "jose": "^5.9.0",
+    "@anthropic-ai/sdk": "^0.32.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
