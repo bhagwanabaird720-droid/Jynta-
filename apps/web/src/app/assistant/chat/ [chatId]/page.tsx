@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { AppShell } from '@/components/layout/AppShell';
+import { ChatWindow } from '@/components/assistant/ChatWindow';
 
 export default function ChatConversationPage() {
   const params = useParams();
@@ -9,14 +10,7 @@ export default function ChatConversationPage() {
 
   return (
     <AppShell>
-      <div className="flex min-h-[80vh] flex-col">
-        <div className="border-b border-neutral-200 px-4 py-3">
-          <h1 className="text-sm font-medium text-neutral-500">Chat: {chatId}</h1>
-        </div>
-        <div className="flex-1 p-6">
-          <p className="text-center text-neutral-400">Conversation area — coming soon.</p>
-        </div>
-      </div>
+      <ChatWindow conversationId={chatId} />
     </AppShell>
   );
 }
