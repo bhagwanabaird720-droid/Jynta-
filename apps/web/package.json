@@ -19,7 +19,7 @@
     "@jynta/database": "*",
     "bcryptjs": "^2.4.3",
     "jose": "^5.9.0",
-    "@anthropic-ai/sdk": "^0.32.0"
+    "@google/generative-ai": "^0.21.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
