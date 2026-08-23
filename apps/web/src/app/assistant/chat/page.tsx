@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { AppShell } from '@/components/layout/AppShell';
 import { Button } from '@jynta/ui';
 
@@ -11,6 +12,7 @@ interface Conversation {
 }
 
 export default function ChatListPage() {
+  const router = useRouter();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [creating, setCreating] = useState(false);
 
@@ -26,7 +28,7 @@ export default function ChatListPage() {
     const data = await res.json();
     setCreating(false);
     if (data.conversation) {
-      window.location.href = `/assistant/chat/${data.conversation.id}`;
+      router.push(`/assistant/chat/${data.conversation.id}`);
     }
   }
 
