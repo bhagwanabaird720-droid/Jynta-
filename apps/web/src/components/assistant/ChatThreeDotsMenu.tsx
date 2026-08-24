@@ -4,12 +4,20 @@ import { useState } from 'react';
 
 interface Props {
   conversationId: string;
+  conversationTitle?: string;
 }
 
-export function ChatThreeDotsMenu({ conversationId }: Props) {
+export function ChatThreeDotsMenu({ conversationId, conversationTitle = 'Chat' }: Props) {
   const [open, setOpen] = useState(false);
   const [renaming, setRenaming] = useState(false);
   const [newTitle, setNewTitle] = useState('');
+  const [pinned, setPinned] = useState(false);
+  const [toast, setToast] = useState('');
+
+  function showToast(msg: string) {
+    setToast(msg);
+    setTimeout(() => setToast(''), 2000);
+  }
 
   async function handleRename() {
     if (!newTitle.trim()) return;
@@ -23,16 +31,38 @@ export function ChatThreeDotsMenu({ conversationId }: Props) {
     window.location.reload();
   }
 
+  async function handlePin() {
+    const newPinned = !pinned;
+    setPinned(newPinned);
+    await fetch(`/api/chat/conversations/${conversationId}/pin`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pinned: newPinned }),
+    });
+    showToast(newPinned ? 'Pinned ✓' : 'Unpinned');
+    setOpen(false);
+  }
+
+  async function handleShare() {
+    await navigator.clipboard.writeText(window.location.href);
+    showToast('Link copied ✓');
+    setOpen(false);
+  }
+
+  async function handleSaveToMemory() {
+    await fetch('/api/memory/save-chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ conversationId, title: conversationTitle }),
+    });
+    showToast('Saved to Memory ✓');
+    setOpen(false);
+  }
+
   async function handleDelete() {
     if (!confirm('Delete this chat?')) return;
     await fetch(`/api/chat/conversations/${conversationId}`, { method: 'DELETE' });
     window.location.href = '/assistant/chat';
-  }
-
-  function handleShare() {
-    navigator.clipboard.writeText(window.location.href);
-    alert('Link copied to clipboard');
-    setOpen(false);
   }
 
   return (
@@ -43,6 +73,12 @@ export function ChatThreeDotsMenu({ conversationId }: Props) {
       >
         ⋮
       </button>
+
+      {toast && (
+        <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2 rounded-full bg-neutral-900 px-4 py-2 text-xs text-white shadow-lg">
+          {toast}
+        </div>
+      )}
 
       {open && (
         <>
@@ -72,13 +108,19 @@ export function ChatThreeDotsMenu({ conversationId }: Props) {
                   ✏️ Rename Chat
                 </button>
                 <button
+                  onClick={handlePin}
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
+                >
+                  📌 {pinned ? 'Unpin Chat' : 'Pin Chat'}
+                </button>
+                <button
                   onClick={handleShare}
                   className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
                 >
                   📤 Share
                 </button>
                 <button
-                  onClick={() => alert('Saved to Memory')}
+                  onClick={handleSaveToMemory}
                   className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
                 >
                   💾 Save to Memory
@@ -96,4 +138,4 @@ export function ChatThreeDotsMenu({ conversationId }: Props) {
       )}
     </div>
   );
-}
+                }
