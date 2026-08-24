@@ -38,7 +38,7 @@ export async function POST(
     );
 
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
     const chatHistory = history.slice(0, -1).map((m) => ({
       role: m.role === 'assistant' ? 'model' : 'user',
@@ -74,4 +74,4 @@ export async function POST(
       { status: 500 }
     );
   }
-}
+                              }
