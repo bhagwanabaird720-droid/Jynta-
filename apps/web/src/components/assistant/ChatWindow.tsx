@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { ChatThreeDotsMenu } from './ChatThreeDotsMenu';
 import { AttachMenu } from './AttachMenu';
+import { VoiceInputButton } from './VoiceInputButton';
 
 interface Message {
   id: string;
@@ -121,9 +122,7 @@ export function ChatWindow({ conversationId }: { conversationId: string }) {
             <div className="flex max-w-[80%] flex-col gap-1">
               <div
                 className={`whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm ${
-                  m.role === 'user'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-neutral-100 text-neutral-900'
+                  m.role === 'user' ? 'bg-blue-600 text-white' : 'bg-neutral-100 text-neutral-900'
                 }`}
               >
                 {formatContent(m.content)}
@@ -146,9 +145,7 @@ export function ChatWindow({ conversationId }: { conversationId: string }) {
           </div>
         )}
 
-        {error && (
-          <p className="mt-2 text-center text-xs text-red-500">{error}</p>
-        )}
+        {error && <p className="mt-2 text-center text-xs text-red-500">{error}</p>}
 
         <div ref={bottomRef} />
       </div>
@@ -164,6 +161,7 @@ export function ChatWindow({ conversationId }: { conversationId: string }) {
             disabled={sending}
             className="flex-1 rounded-full border border-neutral-300 px-4 py-2.5 text-sm disabled:opacity-50"
           />
+          <VoiceInputButton onResult={(text) => setInput((prev) => prev + text)} />
           <button
             onClick={handleSend}
             disabled={sending || !input.trim()}
@@ -175,4 +173,4 @@ export function ChatWindow({ conversationId }: { conversationId: string }) {
       </div>
     </div>
   );
-      }
+        }
