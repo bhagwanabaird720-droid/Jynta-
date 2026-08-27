@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { ChatHistoryPanel } from './ChatHistoryPanel';
 
 interface Props {
   conversationId: string;
@@ -8,15 +10,29 @@ interface Props {
 }
 
 export function ChatThreeDotsMenu({ conversationId, conversationTitle = 'Chat' }: Props) {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [renaming, setRenaming] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [pinned, setPinned] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
   const [toast, setToast] = useState('');
+  const [creating, setCreating] = useState(false);
 
   function showToast(msg: string) {
     setToast(msg);
     setTimeout(() => setToast(''), 2000);
+  }
+
+  async function handleNewChat() {
+    setCreating(true);
+    const res = await fetch('/api/chat/conversations', { method: 'POST' });
+    const data = await res.json();
+    setCreating(false);
+    setOpen(false);
+    if (data.conversation) {
+      router.push(`/assistant/chat/${data.conversation.id}`);
+    }
   }
 
   async function handleRename() {
@@ -62,7 +78,7 @@ export function ChatThreeDotsMenu({ conversationId, conversationTitle = 'Chat' }
   async function handleDelete() {
     if (!confirm('Delete this chat?')) return;
     await fetch(`/api/chat/conversations/${conversationId}`, { method: 'DELETE' });
-    window.location.href = '/assistant/chat';
+    router.push('/assistant/chat');
   }
 
   return (
@@ -83,7 +99,7 @@ export function ChatThreeDotsMenu({ conversationId, conversationTitle = 'Chat' }
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-10 z-50 w-48 rounded-xl border border-neutral-200 bg-white p-1 shadow-lg">
+          <div className="absolute right-0 top-10 z-50 w-52 rounded-xl border border-neutral-200 bg-white p-1 shadow-lg">
             {renaming ? (
               <div className="p-2">
                 <input
@@ -102,40 +118,61 @@ export function ChatThreeDotsMenu({ conversationId, conversationTitle = 'Chat' }
             ) : (
               <>
                 <button
+                  onClick={() => {
+                    setShowHistory(true);
+                    setOpen(false);
+                  }}
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
+                >
+                  🕒 Chat History
+                </button>
+                <button
+                  onClick={handleNewChat}
+                  disabled={creating}
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
+                >
+                  ➕ New Chat
+                </button>
+
+                <div className="my-1 border-t border-neutral-100" />
+
+                <button
                   onClick={() => setRenaming(true)}
                   className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
                 >
-                  ✏️ Rename Chat
+                  ✏️ Rename This Chat
                 </button>
                 <button
                   onClick={handlePin}
                   className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
                 >
-                  📌 {pinned ? 'Unpin Chat' : 'Pin Chat'}
+                  📌 {pinned ? 'Unpin This Chat' : 'Pin This Chat'}
                 </button>
                 <button
                   onClick={handleShare}
                   className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
                 >
-                  📤 Share
+                  📤 Share This Chat
                 </button>
                 <button
                   onClick={handleSaveToMemory}
                   className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
                 >
-                  💾 Save to Memory
+                  💾 Save This Chat to Memory
                 </button>
                 <button
                   onClick={handleDelete}
                   className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
                 >
-                  🗑 Delete Chat
+                  🗑 Delete This Chat
                 </button>
               </>
             )}
           </div>
         </>
       )}
+
+      {showHistory && <ChatHistoryPanel onClose={() => setShowHistory(false)} />}
     </div>
   );
-                }
+                  }
