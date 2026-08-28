@@ -15,15 +15,12 @@ export async function PATCH(
 ) {
   const userId = await getUserId(req);
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
   const { conversationId } = await context.params;
   const { pinned } = await req.json();
-
   await query('UPDATE conversations SET is_pinned = $1 WHERE id = $2 AND user_id = $3', [
     pinned,
     conversationId,
     userId,
   ]);
-
   return NextResponse.json({ success: true });
 }
