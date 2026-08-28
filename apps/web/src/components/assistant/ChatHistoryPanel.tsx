@@ -15,15 +15,11 @@ export function ChatHistoryPanel({ onClose }: { onClose: () => void }) {
   const [renameText, setRenameText] = useState('');
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  function load() {
+  useEffect(() => {
     fetch('/api/chat/conversations')
       .then((res) => res.json())
       .then((data) => setConversations(data.conversations || []))
       .finally(() => setLoading(false));
-  }
-
-  useEffect(() => {
-    load();
   }, []);
 
   function startPress(id: string) {
@@ -48,9 +44,7 @@ export function ChatHistoryPanel({ onClose }: { onClose: () => void }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title: renameText }),
     });
-    setConversations((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, title: renameText } : c))
-    );
+    setConversations((prev) => prev.map((c) => (c.id === id ? { ...c, title: renameText } : c)));
     setRenamingId(null);
     setActiveId(null);
   }
@@ -99,19 +93,13 @@ export function ChatHistoryPanel({ onClose }: { onClose: () => void }) {
                       }}
                       className="text-xs font-medium text-blue-600"
                     >
-                      ✏️ Rename
+                      ✏️
                     </button>
-                    <button
-                      onClick={() => handleDelete(c.id)}
-                      className="text-xs font-medium text-red-600"
-                    >
-                      🗑 Delete
+                    <button onClick={() => handleDelete(c.id)} className="text-xs font-medium text-red-600">
+                      🗑
                     </button>
-                    <button
-                      onClick={() => setActiveId(null)}
-                      className="text-xs font-medium text-neutral-400"
-                    >
-                      Cancel
+                    <button onClick={() => setActiveId(null)} className="text-xs font-medium text-neutral-400">
+                      ✕
                     </button>
                   </div>
                 </div>
