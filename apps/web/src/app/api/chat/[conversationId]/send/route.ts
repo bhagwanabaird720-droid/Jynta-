@@ -75,4 +75,4 @@ export async function POST(
     console.error('Chat send error:', err);
     return NextResponse.json({ error: err?.message || 'AI service failed.' }, { status: 500 });
   }
-}
+      }
