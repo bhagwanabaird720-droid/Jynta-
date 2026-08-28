@@ -93,7 +93,7 @@ export function ChatWindow({ conversationId }: { conversationId: string }) {
   }
 
   return (
-    <div className="flex h-[85vh] flex-col">
+    <div className="flex h-screen flex-col">
       <div className="flex items-center justify-between border-b border-neutral-200 px-4 py-2">
         <h1 className="text-sm font-medium text-neutral-500">💬 Chat</h1>
         <ChatThreeDotsMenu conversationId={conversationId} />
