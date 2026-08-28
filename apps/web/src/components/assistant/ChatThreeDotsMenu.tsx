@@ -85,13 +85,14 @@ export function ChatThreeDotsMenu({ conversationId, conversationTitle = 'Chat' }
     <div className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex h-9 w-9 items-center justify-center rounded-lg hover:bg-neutral-100"
+        aria-label="Menu"
+        className="flex h-9 w-9 items-center justify-center rounded-lg text-xl leading-none hover:bg-neutral-100 active:bg-neutral-200"
       >
         ⋮
       </button>
 
       {toast && (
-        <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2 rounded-full bg-neutral-900 px-4 py-2 text-xs text-white shadow-lg">
+        <div className="fixed bottom-20 left-1/2 z-[100] -translate-x-1/2 rounded-full bg-neutral-900 px-4 py-2 text-xs text-white shadow-lg">
           {toast}
         </div>
       )}
@@ -99,74 +100,86 @@ export function ChatThreeDotsMenu({ conversationId, conversationTitle = 'Chat' }
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-10 z-50 w-52 rounded-xl border border-neutral-200 bg-white p-1 shadow-lg">
+          <div className="fixed right-3 top-14 z-50 w-56 overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-xl">
             {renaming ? (
-              <div className="p-2">
+              <div className="p-3">
                 <input
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="New name"
-                  className="w-full rounded-lg border border-neutral-300 px-2 py-1.5 text-sm"
+                  autoFocus
+                  className="w-full rounded-lg border border-neutral-300 px-2 py-2 text-sm"
                 />
-                <button
-                  onClick={handleRename}
-                  className="mt-2 w-full rounded-lg bg-blue-600 py-1.5 text-xs font-medium text-white"
-                >
-                  Save
-                </button>
+                <div className="mt-2 flex gap-2">
+                  <button
+                    onClick={() => setRenaming(false)}
+                    className="flex-1 rounded-lg border border-neutral-200 py-1.5 text-xs font-medium text-neutral-600"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleRename}
+                    className="flex-1 rounded-lg bg-blue-600 py-1.5 text-xs font-medium text-white"
+                  >
+                    Save
+                  </button>
+                </div>
               </div>
             ) : (
-              <>
+              <div className="py-1">
                 <button
                   onClick={() => {
                     setShowHistory(true);
                     setOpen(false);
                   }}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-neutral-700 active:bg-neutral-100"
                 >
-                  🕒 Chat History
+                  <span className="w-5 text-center">🕒</span> Chat History
                 </button>
                 <button
                   onClick={handleNewChat}
                   disabled={creating}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-neutral-700 active:bg-neutral-100"
                 >
-                  ➕ New Chat
+                  <span className="w-5 text-center">➕</span> New Chat
                 </button>
 
                 <div className="my-1 border-t border-neutral-100" />
 
                 <button
                   onClick={() => setRenaming(true)}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-neutral-700 active:bg-neutral-100"
                 >
-                  ✏️ Rename This Chat
+                  <span className="w-5 text-center">✏️</span> Rename This Chat
                 </button>
                 <button
                   onClick={handlePin}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-neutral-700 active:bg-neutral-100"
                 >
-                  📌 {pinned ? 'Unpin This Chat' : 'Pin This Chat'}
+                  <span className="w-5 text-center">📌</span> {pinned ? 'Unpin This Chat' : 'Pin This Chat'}
                 </button>
                 <button
                   onClick={handleShare}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-neutral-700 active:bg-neutral-100"
                 >
-                  📤 Share This Chat
+                  <span className="w-5 text-center">📤</span> Share This Chat
                 </button>
                 <button
                   onClick={handleSaveToMemory}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-neutral-700 active:bg-neutral-100"
                 >
-                  💾 Save This Chat to Memory
+                  <span className="w-5 text-center">💾</span> Save to Memory
                 </button>
+
+                <div className="my-1 border-t border-neutral-100" />
+
                 <button
                   onClick={handleDelete}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-red-600 active:bg-red-50"
                 >
-                  🗑 Delete This Chat
+                  <span className="w-5 text-center">🗑</span> Delete This Chat
                 </button>
-              </>
+              </div>
             )}
           </div>
         </>
@@ -175,4 +188,4 @@ export function ChatThreeDotsMenu({ conversationId, conversationTitle = 'Chat' }
       {showHistory && <ChatHistoryPanel onClose={() => setShowHistory(false)} />}
     </div>
   );
-                  }
+      }
