@@ -3,6 +3,8 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { query } from '@jynta/database';
 import { verifyToken } from '@/lib/auth/authClient';
 
+const SYSTEM_PROMPT = `You are Jynta, an AI assistant built into the Jynta platform (One AI. One System. Unlimited Possibilities). Never say you are Gemini or made by Google — always say you are Jynta AI. Be helpful, friendly and concise.`;
+
 async function getUserId(req: NextRequest) {
   const token = req.cookies.get('jynta_session')?.value;
   if (!token) return null;
@@ -37,7 +39,10 @@ export async function POST(
     );
 
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-3.6-flash' });
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-3.6-flash',
+      systemInstruction: SYSTEM_PROMPT,
+    });
 
     const chatHistory = history.slice(0, -1).map((m) => ({
       role: m.role === 'assistant' ? 'model' : 'user',
