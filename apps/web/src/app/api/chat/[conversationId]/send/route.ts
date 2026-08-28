@@ -20,17 +20,16 @@ export async function POST(
 
     const { conversationId } = await context.params;
     const { message } = await req.json();
-
     if (!message) return NextResponse.json({ error: 'Message is required' }, { status: 400 });
-
     if (!process.env.GOOGLE_AI_API_KEY) {
       return NextResponse.json({ error: 'AI Key not configured on server' }, { status: 500 });
     }
 
-    await query(
-      'INSERT INTO messages (conversation_id, role, content) VALUES ($1, $2, $3)',
-      [conversationId, 'user', message]
-    );
+    await query('INSERT INTO messages (conversation_id, role, content) VALUES ($1, $2, $3)', [
+      conversationId,
+      'user',
+      message,
+    ]);
 
     const history = await query(
       'SELECT role, content FROM messages WHERE conversation_id = $1 ORDER BY created_at ASC',
@@ -69,9 +68,6 @@ export async function POST(
     return NextResponse.json({ message: aiMessage });
   } catch (err: any) {
     console.error('Chat send error:', err);
-    return NextResponse.json(
-      { error: err?.message || 'AI service failed. Check API key.' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: err?.message || 'AI service failed.' }, { status: 500 });
   }
-                              }
+}
